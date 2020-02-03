@@ -1,0 +1,264 @@
+
+//
+
+module IR(clk,rst_n,IR,rc0,rc1,rc2,rc3,rc4,rc5,rc6,rc7,rc8,rc9,led_cs,led_db,cs,counter,counter2,data_cnt,led2,get_data);
+  input  clk;
+  input  rst_n;
+  input  IR;
+  input  rc0;
+  input  rc1;
+  input  rc2;
+  input  rc3;
+  input  rc4;
+  input  rc5;
+  input  rc6;
+  input  rc7;
+  input  rc8;
+  input  rc9;
+  output [3:0] led_cs;
+  output [7:0] led_db;
+  output [1:0] cs;
+  output [9:0] counter2;
+  output [8:0] counter;
+  output [5:0] data_cnt;
+  output [7:0] led2;
+  output [31:0] get_data;
+  wire clk;
+  wire rst_n;
+  wire IR;
+  wire rc0;
+  reg [7:0] led_db;
+  reg [3:0] led_cs;
+ 
+  reg [7:0] led1;
+  reg [7:0] led2;
+  reg [7:0] led3;
+  reg [7:0] led4;
+  reg [15:0] irda_data;    // save irda data,than send to 7 segment led
+  reg [31:0] get_data;     // use for saving 32 bytes irda data
+  reg [5:0]  data_cnt;     // 32 bytes irda data counter
+  reg [1:0]  cs,ns;
+  reg error_flag;          // 32 bytes data
+
+    parameter IDLE       = 2'b00; //
+    parameter LEADER_9   = 2'b01; //9ms
+    parameter LEADER_4   = 2'b10; //4ms
+    parameter DATA_STATE = 2'b11; //
+
+  //----------------------------------------------------------------------------
+  reg irda_reg0;       //
+  reg irda_reg1;       //irda
+  reg irda_reg2;       //irda£¬irda
+  wire irda_neg_pulse; //irda
+  wire irda_pos_pulse; //irda
+  wire irda_chang;     //rda  
+  reg[15:0] cnt_scan;//
+  always @ (posedge clk) //
+    if(!rst_n)
+      begin
+        irda_reg0 <= 1'b0;
+        irda_reg1 <= 1'b0;
+        irda_reg2 <= 1'b0;
+      end
+    else
+      begin
+        led_cs = 4'b0000; //
+        irda_reg0 <= IR;
+        irda_reg1 <= irda_reg0;
+        irda_reg2 <= irda_reg1;
+      end
+  
+  assign irda_chang = (irda_pos_pulse|irda_neg_pulse);  //IR
+  assign irda_neg_pulse = (irda_reg2 & (~irda_reg1));  //IR irda
+  assign irda_pos_pulse = ((~irda_reg2) & irda_reg1);      //IR irda
+
+  reg [8:0] counter;  //175
+  reg [9:0] counter2; //¼Æ
+  wire check_9ms;  // check leader 9ms time
+  wire check_4ms;  // check leader 4.5ms time
+  wire low;        // check  data="0" time
+  wire high;       // check  data="1" time
+ 
+  //----------------------------------------------------------------------------
+  //1750
+  always @ (posedge clk)
+    if (!rst_n)
+     begin
+      counter <= 9'b0;
+     end
+    else if (irda_chang)  //irda
+     begin
+      counter <= 9'b0;
+     end
+    else if (counter == 9'b111111111)  //irda
+     begin
+      counter <= 9'b0;
+     end
+    else
+      counter <= counter + 9'b1;
+  
+  //---------------------------------------------------------------------------- 
+  always @ (posedge clk)
+    if (!rst_n)
+      begin
+        counter2 <= 10'b0;
+      end 
+    else if (irda_chang)  //irda
+      begin
+        counter2 <= 10'b0;
+      end
+    else if (counter == 9'b111111111)
+      begin
+        counter2 <= counter2 +10'b1;
+      end
+
+  assign check_9ms = ((868 < counter2) & (counter2 < 898)); 
+  //878 
+  assign check_4ms = ((429 < counter2) & (counter2 < 449));  // 439
+  assign low  = ((44 < counter2) & (counter2 < 64));       // 54
+  assign high = ((98 < counter2) & (counter2 < 118));       // 108
+
+  //----------------------------------------------------------------------------
+  // generate statemachine  
+ 
+  always @ (posedge clk)
+    if (!rst_n)
+      cs = IDLE;
+    else
+      cs = ns; //×´Ì¬Î»
+     
+  always @ (*)
+    case (cs)
+      IDLE:
+        if (~irda_reg1)
+          ns = LEADER_9;
+        else
+          ns = IDLE;
+   
+      LEADER_9:
+        if (irda_neg_pulse)   //leader 9ms check
+          begin
+            if (check_9ms)
+              ns = LEADER_4;
+	    else 
+	      ns = IDLE;
+          end
+	else 
+	   ns = LEADER_9;
+   
+      LEADER_4:
+        if (irda_pos_pulse)  // leader 4.5ms check
+          begin
+            if (check_4ms)
+              ns = DATA_STATE;
+	    else 
+	      ns = IDLE;
+          end
+	else 
+           ns = LEADER_4;
+   
+      DATA_STATE:
+        if ((data_cnt == 6'd32) & irda_reg2 & irda_reg1)
+          ns = IDLE;
+        else if (error_flag)
+          ns = IDLE;
+        else
+          ns = DATA_STATE;
+   default:
+   ns = IDLE;
+  endcase
+
+  //
+  always @ (posedge clk)
+    if (!rst_n)
+      begin
+        data_cnt <= 6'd0;
+        get_data <= 32'd0;
+        error_flag <= 1'b0;
+      end
+  
+    else if (cs == IDLE)
+      begin
+        data_cnt <= 6'd0;
+        get_data <= 32'd0;
+        error_flag <= 1'b0;
+      end
+  
+    else if (cs == DATA_STATE)      
+        if (irda_pos_pulse)  // low 0.56ms check
+          begin
+            if (low)  //error
+              begin
+               get_data <= get_data << 1;
+               get_data[0] <= 1'b0;
+	       data_cnt <= data_cnt + 1'b1;
+	      end
+            else if (high)
+	     begin
+              get_data <= get_data << 1;
+              get_data[0] <= 1'b1;
+              data_cnt <= data_cnt + 1'b1;
+	     end
+          end
+        else if (irda_neg_pulse)  //check 0.56ms/1.68ms data 0/1
+          begin
+            if (!low)  //error
+              error_flag<=1'b1;
+          end
+
+  always @ (posedge clk)
+    if (!rst_n)
+	irda_data<= 16'd0;
+    else if ((data_cnt ==6'd32) & irda_reg1)
+     begin
+      led1 <= get_data[7:0];  //
+      led2 <= get_data[15:8]; //
+      led3 <= get_data[23:16];//
+      led4 <= get_data[31:24];
+     end
+ 
+//
+	always@(led2) 
+	begin
+		case(led2)
+	
+	                     //09
+        	8'b01101000: //
+			led_db=8'b1100_0000;  //0
+
+		8'b00110000: //
+			led_db=8'b1111_1001;  //1
+
+		8'b00011000: //2
+			led_db=8'b1010_0100;  //2
+
+		8'b01111010: //3
+			led_db=8'b1011_0000;  //3
+
+		8'b00010000: //
+			led_db=8'b1001_1001;  //4
+
+		8'b00111000: //5
+			led_db=8'b1001_0010;  //5
+
+		8'b01011010: //6
+			led_db=8'b1000_0010;  //6
+
+		8'b01000010: //7
+			led_db=8'b1111_1000;  //7
+
+		8'b01001010: //8
+			led_db=8'b1000_0000;  //8
+
+		8'b01010010: //9
+			led_db=8'b1001_0000;  //9
+			
+	  	//F
+	   	default: led_db=8'b1000_1110;
+
+	 	endcase
+	end
+
+endmodule 
+
+

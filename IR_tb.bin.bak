@@ -1,0 +1,1114 @@
+`timescale 1ps / 1ps
+module IR_tb (); 
+
+  reg   clk;
+  reg   rst_n;
+  reg   IR; 
+  reg   [3:0] rc;
+  wire  [7:0] led_db; 
+  wire  [3:0] led_cs;
+  wire  [1:0] cs;
+  wire  [9:0] counter2; 
+  wire  [8:0] counter;
+  wire  [5:0] data_cnt;
+  wire  [7:0] led2;
+  wire  [31:0] get_data;
+   
+   IR  
+   DUT  (  
+       .clk (clk) ,
+       .rst_n (rst_n) ,
+       .IR (IR) ,
+       .led_db (led_db) ,
+       .led_cs (led_cs) ,
+       .cs (cs) ,
+       .counter2 (counter2) ,
+       .counter (counter) ,
+       .data_cnt (data_cnt) ,
+       .led2 (led2) ,
+       .get_data (get_data) ,
+       .rc (rc) 
+	); 
+
+  initial begin
+    clk = 1'b0;
+    rst_n = 1'b0;
+    repeat(10) #10 clk = ~clk;				// reset 100 ps
+    rst_n = 1'b1;
+    forever #10 clk = ~clk; // generate a clock
+  end
+  //initial begin
+always @ (rst_n)
+ begin
+  if (!rc)
+   begin
+    // Leader 9ms
+    repeat(200) #10 IR = 1'b1;
+    repeat(200) #10 IR = 1'b0;
+    repeat(900000) #10 IR = 1'b1;
+    // Leader 4.5ms
+    repeat(450000) #10 IR = 1'b0;
+    // Data 1
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 2
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 3
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 4
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 5
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 6
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 7
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 8
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 9
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 10
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 11
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 12
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 13
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 14
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 15
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 16
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 17
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 18
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 19
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 20
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 21
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 22
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 23
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 24
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 25
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 26
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 27
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 28
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 29
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 30
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 31
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 32
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    repeat(56250) #10 IR = 1'b1;
+    #100 $finish;
+   end
+  else if (rc1 == 4'd1)
+   begin
+    // Leader 9ms
+    repeat(200) #10 IR = 1'b1;
+    repeat(200) #10 IR = 1'b0;
+    repeat(900000) #10 IR = 1'b1;
+    // Leader 4.5ms
+    repeat(450000) #10 IR = 1'b0;
+    // Data 1
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 2
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 3
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 4
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 5
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 6
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 7
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 8
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 9
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 10
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 11
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 12
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 13
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 14
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 15
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 16
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 17
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 18
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 19
+    repeat(56000) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 20
+    repeat(56000) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 21
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 22
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 23
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 24
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 25
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 26
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 27
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 28
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 29
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 30
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 31
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 32
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    repeat(56250) #10 IR = 1'b1;
+    #100 $finish;
+   end
+  else if (rc == 4'd2)
+   begin
+    // Leader 9ms
+    repeat(200) #10 IR = 1'b1;
+    repeat(200) #10 IR = 1'b0;
+    repeat(900000) #10 IR = 1'b1;
+    // Leader 4.5ms
+    repeat(450000) #10 IR = 1'b0;
+    // Data 1
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 2
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 3
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 4
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 5
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 6
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 7
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 8
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 9
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 10
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 11
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 12
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 13
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 14
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 15
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 16
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 17
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 18
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 19
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 20
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 21
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 22
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 23
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 24
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 25
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 26
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 27
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 28
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 29
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 30
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 31
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 32
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    repeat(56250) #10 IR = 1'b1;
+    #100 $finish;
+   end
+  else if (rc == 4'd3)
+   begin
+    // Leader 9ms
+    repeat(200) #10 IR = 1'b1;
+    repeat(200) #10 IR = 1'b0;
+    repeat(900000) #10 IR = 1'b1;
+    // Leader 4.5ms
+    repeat(450000) #10 IR = 1'b0;
+    // Data 1
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 2
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 3
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 4
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 5
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 6
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 7
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 8
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 9
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 10
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 11
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 12
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 13
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 14
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 15
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 16
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 17
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 18
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 19
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 20
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 21
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 22
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 23
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 24
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 25
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 26
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 27
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 28
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 29
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 30
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 31
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 32
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    repeat(56250) #10 IR = 1'b1;
+    #100 $finish;
+   end
+  else if (rc == 4'd4)
+   begin
+    // Leader 9ms
+    repeat(200) #10 IR = 1'b1;
+    repeat(200) #10 IR = 1'b0;
+    repeat(900000) #10 IR = 1'b1;
+    // Leader 4.5ms
+    repeat(450000) #10 IR = 1'b0;
+    // Data 1
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 2
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 3
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 4
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 5
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 6
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 7
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 8
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 9
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 10
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 11
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 12
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 13
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 14
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 15
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 16
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 17
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 18
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 19
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 20
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 21
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 22
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 23
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 24
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 25
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 26
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 27
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 28
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 29
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 30
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 31
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 32
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    repeat(56250) #10 IR = 1'b1;
+    #100 $finish;
+   end
+  else if (rc == 4'd5)
+   begin
+    // Leader 9ms
+    repeat(200) #10 IR = 1'b1;
+    repeat(200) #10 IR = 1'b0;
+    repeat(900000) #10 IR = 1'b1;
+    // Leader 4.5ms
+    repeat(450000) #10 IR = 1'b0;
+    // Data 1
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 2
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 3
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 4
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 5
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 6
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 7
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 8
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 9
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 10
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 11
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 12
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 13
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 14
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 15
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 16
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 17
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 18
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 19
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 20
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 21
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 22
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 23
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 24
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 25
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 26
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 27
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 28
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 29
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 30
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 21
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 32
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    repeat(56250) #10 IR = 1'b1;
+    #100 $finish;
+   end
+  else if (rc == 4'd6)
+   begin
+    // Leader 9ms
+    repeat(200) #10 IR = 1'b1;
+    repeat(200) #10 IR = 1'b0;
+    repeat(900000) #10 IR = 1'b1;
+    // Leader 4.5ms
+    repeat(450000) #10 IR = 1'b0;
+    // Data 1
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 2
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 3
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 4
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 5
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 6
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 7
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 8
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 9
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 10
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 11
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 12
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 13
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 14
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 15
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 16
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 17
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 18
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 19
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 20
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 21
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 22
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 23
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 24
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 25
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 26
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 27
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 28
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 29
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 30
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 31
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 32
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    repeat(56000) #10 IR = 1'b1;
+    #100 $finish;
+   end
+  else if (rc == 4'd7)
+   begin
+    // Leader 9ms
+    repeat(200) #10 IR = 1'b1;
+    repeat(200) #10 IR = 1'b0;
+    repeat(900000) #10 IR = 1'b1;
+    // Leader 4.5ms
+    repeat(450000) #10 IR = 1'b0;
+    // Data 1
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 2
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 3
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 4
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 5
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 6
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 7
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 8
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 9
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 10
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 11
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 12
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 13
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 14
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 15
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 16
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 17
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 18
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 19
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 20
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 21
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 22
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 28
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 24
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 25
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 26
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 27
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 28
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 29
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 30
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 31
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 32
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    repeat(56250) #10 IR = 1'b1;
+    #100 $finish;
+   end
+  else if (rc == 4'd8)
+   begin
+    // Leader 9ms
+    repeat(200) #10 IR = 1'b1;
+    repeat(200) #10 IR = 1'b0;
+    repeat(900000) #10 IR = 1'b1;
+    // Leader 4.5ms
+    repeat(450000) #10 IR = 1'b0;
+    // Data 1
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 2
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 3
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 4
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 5
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 6
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 7
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 8
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 9
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 10
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 11
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 12
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 13
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 14
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 15
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 16
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 17
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 18
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 19
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 20
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 21
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 22
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 23
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 24
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 25
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 26
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 27
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 28
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 29
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 30
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 31
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 32
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    repeat(56520) #10 IR = 1'b1;
+    #100 $finish;
+   end
+  else if (rc == 4'd9)
+   begin
+    // Leader 9ms
+    repeat(200) #10 IR = 1'b1;
+    repeat(200) #10 IR = 1'b0;
+    repeat(900000) #10 IR = 1'b1;
+    // Leader 4.5ms
+    repeat(450000) #10 IR = 1'b0;
+    // Data 1
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 2
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 3
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 4
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 5
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 6
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 7
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 8
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 9
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 10
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 11
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 12
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 13
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 14
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 15
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 16
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 17
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 18
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 19
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 20
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 21
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 22
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 23
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 24
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 25
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 26
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 25
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 28
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 29
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 25
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    // Data 31
+    repeat(56250) #10 IR = 1'b1;
+    repeat(56250) #10 IR = 1'b0;
+    // Data 25
+    repeat(56250) #10 IR = 1'b1;
+    repeat(112500) #10 IR = 1'b0;
+    repeat(56250) #10 IR = 1'b1;
+    #100 $finish;
+   end
+  end
+endmodule 
